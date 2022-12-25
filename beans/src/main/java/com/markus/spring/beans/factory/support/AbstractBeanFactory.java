@@ -39,7 +39,19 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
     }
 
     protected <T> T doGetBean(final String name, @Nullable final Class<T> requiredType, @Nullable final Object[] args) {
-        return null;
+        Object bean;
+        Object sharedInstance = getSingleton(name);
+        if (sharedInstance != null) {
+            return (T) getObjectForBeanInstance(sharedInstance, name);
+        }
+        BeanDefinition beanDefinition = getBeanDefinition(name);
+        bean = createBean(name, beanDefinition, args);
+        return (T) getObjectForBeanInstance(bean, name);
+    }
+
+    private Object getObjectForBeanInstance(Object beanInstance, String beanName) {
+        // todo 后续完善FactoryBean
+        return beanInstance;
     }
 
     //---------------------------------------------------------------------
@@ -47,4 +59,6 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
     //---------------------------------------------------------------------
 
     protected abstract BeanDefinition getBeanDefinition(String beanName);
+
+    protected abstract Object createBean(String beanName, BeanDefinition beanDefinition, Object[] args);
 }
