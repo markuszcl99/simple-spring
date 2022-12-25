@@ -1,4 +1,4 @@
-package com.markus.spring.beans.support;
+package com.markus.spring.beans.factory.support;
 
 import com.markus.spring.beans.factory.config.BeanDefinition;
 import com.markus.spring.beans.factory.config.BeanPostProcessor;
@@ -12,7 +12,7 @@ import com.sun.istack.internal.Nullable;
  * @Blog: http://markuszhang.com
  * It's my honor to share what I've learned with you!
  */
-public abstract class AbstractBeanFactory implements ConfigurableBeanFactory {
+public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory {
 
 
     @Override

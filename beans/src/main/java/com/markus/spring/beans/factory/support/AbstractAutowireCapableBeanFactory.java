@@ -1,4 +1,4 @@
-package com.markus.spring.beans.support;
+package com.markus.spring.beans.factory.support;
 
 import com.markus.spring.beans.factory.AutowireCapableBeanFactory;
 
