@@ -2,7 +2,7 @@ package com.markus.spring.beans.factory.support;
 
 import com.markus.spring.beans.factory.ObjectFactory;
 import com.markus.spring.beans.factory.config.SingletonBeanRegistry;
-import com.markus.spring.core.utils.Assert;
+import com.markus.spring.core.util.Assert;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

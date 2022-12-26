@@ -1,4 +1,4 @@
-package com.markus.spring.core.utils;
+package com.markus.spring.core.util;
 
 import com.sun.istack.internal.Nullable;
 
