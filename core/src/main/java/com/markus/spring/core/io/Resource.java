@@ -7,5 +7,7 @@ package com.markus.spring.core.io;
  * @Blog: http://markuszhang.com
  * It's my honor to share what I've learned with you!
  */
-public interface Resource extends InputStreamSource{
+public interface Resource extends InputStreamSource {
+
+    String getDescription();
 }

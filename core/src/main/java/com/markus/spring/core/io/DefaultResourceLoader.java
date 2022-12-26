@@ -32,7 +32,7 @@ public class DefaultResourceLoader implements ResourceLoader {
     public Resource getResource(String location) {
         Assert.notNull(location, "location must not be null!");
         if (location.startsWith(CLASSPATH_URL_PREFIX)) {
-            return new ClassPathResource();
+            return new ClassPathResource(location.substring(CLASSPATH_URL_PREFIX.length()), classLoader);
         }
         // todo 其他资源加载器待实现
         return null;

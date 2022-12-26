@@ -10,6 +10,11 @@ import com.sun.istack.internal.Nullable;
  * It's my honor to share what I've learned with you!
  */
 public abstract class ClassUtils {
+
+    private static final char PACKAGE_SEPARATOR = '.';
+
+    private static final char PATH_SEPARATOR = '/';
+
     @Nullable
     public static ClassLoader getDefaultClassLoader() {
         ClassLoader cl = null;
@@ -33,5 +38,18 @@ public abstract class ClassUtils {
             }
         }
         return cl;
+    }
+
+    public static String classPackageAsResourcePath(@Nullable Class<?> clazz) {
+        if (clazz == null) {
+            return "";
+        }
+        String className = clazz.getName();
+        int packageEndIndex = className.lastIndexOf(PACKAGE_SEPARATOR);
+        if (packageEndIndex == -1) {
+            return "";
+        }
+        String packageName = className.substring(0, packageEndIndex);
+        return packageName.replace(PACKAGE_SEPARATOR, PATH_SEPARATOR);
     }
 }
