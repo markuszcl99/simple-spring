@@ -1,0 +1,4 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <bean id="testId"></bean>
+</beans>
