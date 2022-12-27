@@ -31,7 +31,14 @@ public class ClassPathResource extends AbstractFileResolvingResource {
 
     public ClassPathResource(String path, @Nullable ClassLoader classLoader) {
         Assert.notNull(path, "Path must not be null");
-        this.path = path;
+
+        // todo 这里Spring框架调用了StringUtils.cleanPath(path) 这里我们先略过
+        String pathToUse = null;
+        if (path.startsWith("/")) {
+            pathToUse = path.substring(1);
+        }
+        this.path = pathToUse;
+
         this.classLoader = classLoader != null ? classLoader : ClassUtils.getDefaultClassLoader();
     }
 

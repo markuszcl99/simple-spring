@@ -12,7 +12,7 @@ import java.util.Map;
  * @Blog: http://markuszhang.com
  * It's my honor to share what I've learned with you!
  */
-public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory implements ConfigurableListableBeanFactory {
+public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory implements ConfigurableListableBeanFactory,BeanDefinitionRegistry {
 
     //---------------------------------------------------------------------
     // Implementation of AbstractBeanFactory interface
@@ -21,6 +21,12 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
     public BeanDefinition getBeanDefinition(String beanName) {
         return null;
     }
+
+    @Override
+    protected Object createBean(String beanName, BeanDefinition beanDefinition, Object[] args) {
+        return null;
+    }
+
     //---------------------------------------------------------------------
     // Implementation of ConfigurableListableBeanFactory interface
     //---------------------------------------------------------------------
@@ -61,5 +67,10 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
     @Override
     public <T> Map<String, T> getBeansOfType(Class<T> type) {
         return null;
+    }
+
+    @Override
+    public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition) {
+
     }
 }
