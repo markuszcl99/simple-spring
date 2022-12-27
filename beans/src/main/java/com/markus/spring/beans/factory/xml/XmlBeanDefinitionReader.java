@@ -6,6 +6,8 @@ import com.markus.spring.beans.factory.support.BeanDefinitionRegistry;
 import com.markus.spring.core.io.Resource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
@@ -60,7 +62,16 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         // 获取根节点
         Element root = doc.getDocumentElement();
 
+        NodeList nl = root.getChildNodes();
+        for (int i = 0; i < nl.getLength(); i++) {
+            Node node = nl.item(i);
+            if (node instanceof Element) {
+                Element ele = (Element) node;
+                // todo 解析BeanDefinition
+                String id = ele.getAttribute("id");
+                System.out.println(id);
+            }
+        }
         return 0;
-
     }
 }
