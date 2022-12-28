@@ -9,7 +9,18 @@ import com.sun.istack.internal.Nullable;
  * @Blog: http://markuszhang.com
  * It's my honor to share what I've learned with you!
  */
-public class RootBeanDefinition extends AbstractBeanDefinition{
+public class RootBeanDefinition extends AbstractBeanDefinition {
+
+    public RootBeanDefinition() {
+        super();
+    }
+
+    public RootBeanDefinition(@Nullable Class<?> beanClass) {
+        super();
+        setBeanClass(beanClass);
+    }
+
+
     @Override
     public String getParentName() {
         return null;
