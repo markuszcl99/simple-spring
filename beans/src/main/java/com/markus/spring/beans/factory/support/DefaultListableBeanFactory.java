@@ -73,4 +73,9 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
     public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition) {
 
     }
+
+    @Override
+    public int getBeanDefinitionCount() {
+        return 0;
+    }
 }

@@ -1,5 +1,6 @@
 package com.markus.spring.beans.factory.xml;
 
+import com.markus.spring.beans.BeanUtils;
 import com.markus.spring.beans.BeansException;
 import com.markus.spring.beans.factory.support.AbstractBeanDefinitionReader;
 import com.markus.spring.beans.factory.support.BeanDefinitionRegistry;
@@ -24,6 +25,9 @@ import java.util.List;
 public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
     private DocumentLoader documentLoader = new DefaultDocumentLoader();
+
+    private Class<? extends BeanDefinitionDocumentReader> documentReaderClass =
+            DefaultBeanDefinitionDocumentReader.class;
 
     public XmlBeanDefinitionReader(BeanDefinitionRegistry registry) {
         super(registry);
@@ -59,19 +63,13 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
     }
 
     private int registerBeanDefinitions(Document doc, Resource resource) {
-        // 获取根节点
-        Element root = doc.getDocumentElement();
+        BeanDefinitionDocumentReader documentReader = createBeanDefinitionDocumentReader();
+        int countBefore = getBeanDefinitionRegistry().getBeanDefinitionCount();
+        documentReader.registerBeanDefinitions(doc, new XmlReaderContext(this, resource));
+        return getBeanDefinitionRegistry().getBeanDefinitionCount() - countBefore;
+    }
 
-        NodeList nl = root.getChildNodes();
-        for (int i = 0; i < nl.getLength(); i++) {
-            Node node = nl.item(i);
-            if (node instanceof Element) {
-                Element ele = (Element) node;
-                // todo 解析BeanDefinition
-                String id = ele.getAttribute("id");
-                System.out.println(id);
-            }
-        }
-        return 0;
+    protected BeanDefinitionDocumentReader createBeanDefinitionDocumentReader() {
+        return BeanUtils.instantiateClass(this.documentReaderClass);
     }
 }
