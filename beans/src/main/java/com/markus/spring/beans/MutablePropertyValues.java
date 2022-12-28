@@ -60,4 +60,9 @@ public class MutablePropertyValues implements PropertyValues, Serializable {
         }
         return null;
     }
+
+    @Override
+    public boolean isEmpty() {
+        return this.propertyValueList.isEmpty();
+    }
 }

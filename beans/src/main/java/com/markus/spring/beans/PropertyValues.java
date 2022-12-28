@@ -32,4 +32,6 @@ public interface PropertyValues extends Iterable<PropertyValue> {
     PropertyValue[] getPropertyValues();
 
     PropertyValue getPropertyValue(String propertyName);
+
+    boolean isEmpty();
 }
