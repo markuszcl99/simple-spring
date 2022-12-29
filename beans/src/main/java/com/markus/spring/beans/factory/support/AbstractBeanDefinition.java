@@ -28,8 +28,7 @@ public abstract class AbstractBeanDefinition implements BeanDefinition {
     @Nullable
     private MutablePropertyValues propertyValues;
 
-    public AbstractBeanDefinition(Class<?> beanClass) {
-        this.beanClass = beanClass;
+    public AbstractBeanDefinition() {
     }
 
     public AbstractBeanDefinition(BeanDefinition original) {

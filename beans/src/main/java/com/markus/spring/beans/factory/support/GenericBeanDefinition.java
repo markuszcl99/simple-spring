@@ -16,7 +16,8 @@ public class GenericBeanDefinition extends AbstractBeanDefinition {
     private String parentName;
 
     public GenericBeanDefinition(Class<?> beanClass) {
-        super(beanClass);
+        super();
+        setBeanClass(beanClass);
     }
 
     public GenericBeanDefinition(BeanDefinition original) {

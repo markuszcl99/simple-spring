@@ -71,34 +71,29 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
         beanDefinition.setScope(scope);
 
         String beanName = StrUtil.isNotEmpty(id) ? id : name;
-        if (StrUtil.isNotEmpty(name)) {
-            beanName = StrUtil.lowerFirst(id);
+        if (StrUtil.isEmpty(beanName)) {
+            beanName = StrUtil.lowerFirst(beanClass.getSimpleName());
         }
+        // 开始解析 <property /> 标签
         NodeList nl = element.getChildNodes();
+        MutablePropertyValues propertyValues = new MutablePropertyValues();
         for (int i = 0; i < nl.getLength(); i++) {
             Node node = nl.item(i);
             if (node instanceof Element) {
                 Element subElement = (Element) node;
-                processBeanPropertyElement(beanDefinition, subElement);
+                String field = subElement.getAttribute("name");
+                String value = subElement.getAttribute("value");
+
+                propertyValues.addPropertyValue(new PropertyValue(field, value));
             }
         }
+        beanDefinition.setPropertyValues(propertyValues);
 
         BeanDefinitionRegistry registry = this.readerContext.getReader().getBeanDefinitionRegistry();
-        if (registry.containsBeanDefinition(beanName)) {
+        if (!registry.containsBeanDefinition(beanName)) {
             registry.registerBeanDefinition(beanName, beanDefinition);
         }
 
     }
 
-    private void processBeanPropertyElement(AbstractBeanDefinition abd, Element element) {
-        // todo spring 中还有 ref，后续实现 先考虑简单的字段赋值
-        String name = element.getAttribute("name");
-        String value = element.getAttribute("value");
-
-        MutablePropertyValues propertyValues = new MutablePropertyValues();
-        propertyValues.addPropertyValue(new PropertyValue("name", name));
-        propertyValues.addPropertyValue(new PropertyValue("value", value));
-
-        abd.setPropertyValues(propertyValues);
-    }
 }
