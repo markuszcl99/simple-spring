@@ -19,4 +19,11 @@ public class XmlReaderContext {
         this.resource = resource;
     }
 
+    public XmlBeanDefinitionReader getReader() {
+        return reader;
+    }
+
+    public Resource getResource() {
+        return resource;
+    }
 }

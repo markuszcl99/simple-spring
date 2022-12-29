@@ -14,4 +14,6 @@ public interface BeanDefinitionRegistry {
     void registerBeanDefinition(String beanName, BeanDefinition beanDefinition);
 
     int getBeanDefinitionCount();
+
+    boolean containsBeanDefinition(String beanName);
 }
