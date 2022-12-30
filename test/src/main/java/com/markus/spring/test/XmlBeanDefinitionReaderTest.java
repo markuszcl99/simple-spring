@@ -15,6 +15,7 @@ public class XmlBeanDefinitionReaderTest {
     public static void main(String[] args) {
         BeanDefinitionRegistry registry = new DefaultListableBeanFactory();
         XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(registry);
-        reader.loadBeanDefinitions("classpath:/META-INF/application-context.xml");
+        int count = reader.loadBeanDefinitions("classpath:/META-INF/application-context.xml");
+        System.out.println("register BeanDefinition count : " + count);
     }
 }

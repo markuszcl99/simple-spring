@@ -1,7 +1,12 @@
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-    <bean id="user" class="com.markus.spring.domain.User" >
-        <property name="username" value="MarkusZhang" />
-        <property name="sex" value="male" />
+    <bean id="user" class="com.markus.spring.domain.User">
+        <property name="username" value="MarkusZhang"/>
+        <property name="sex" value="male"/>
+    </bean>
+
+    <bean id="user2" class="com.markus.spring.domain.User">
+        <property name="username" value="Luna"/>
+        <property name="sex" value="female"/>
     </bean>
 </beans>
