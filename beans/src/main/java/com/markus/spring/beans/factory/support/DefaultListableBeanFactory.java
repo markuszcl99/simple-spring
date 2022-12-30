@@ -2,8 +2,13 @@ package com.markus.spring.beans.factory.support;
 
 import com.markus.spring.beans.factory.config.BeanDefinition;
 import com.markus.spring.beans.factory.config.ConfigurableListableBeanFactory;
+import com.markus.spring.core.util.Assert;
+import com.markus.spring.core.util.StringUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author: markus
@@ -12,7 +17,17 @@ import java.util.Map;
  * @Blog: http://markuszhang.com
  * It's my honor to share what I've learned with you!
  */
-public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory implements ConfigurableListableBeanFactory,BeanDefinitionRegistry {
+public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory implements ConfigurableListableBeanFactory, BeanDefinitionRegistry {
+
+    /**
+     * BeanDefinition Map
+     */
+    private final Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<>(256);
+
+    /**
+     * BeanDefinition Register Order
+     */
+    private List<String> beanDefinitionNames = new ArrayList<>(256);
 
     //---------------------------------------------------------------------
     // Implementation of AbstractBeanFactory interface
@@ -54,14 +69,10 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
     //---------------------------------------------------------------------
     // Implementation of ListableBeanFactory interface
     //---------------------------------------------------------------------
-    @Override
-    public boolean containsBean(String name) {
-        return false;
-    }
 
     @Override
     public String[] getBeanDefinitionNames() {
-        return new String[0];
+        return StringUtils.toStringArray(this.beanDefinitionNames);
     }
 
     @Override
@@ -71,16 +82,22 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
     @Override
     public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition) {
+        Assert.notNull(beanName, "beanName must not be null!");
+        Assert.notNull(beanDefinition, "beanDefinition must not be null!");
 
+        // todo Spring 这里会判断AbstractBeanDefinition的校验以及BeanDefinition是否可以被重写，通过配置来决定程序是否正常，我们这里暂时不考虑，直接注册
+        this.beanDefinitionMap.put(beanName, beanDefinition);
+        // BeanDefinition的注册顺序
+        this.beanDefinitionNames.add(beanName);
     }
 
     @Override
     public int getBeanDefinitionCount() {
-        return 0;
+        return this.beanDefinitionMap.size();
     }
 
     @Override
     public boolean containsBeanDefinition(String beanName) {
-        return false;
+        return this.beanDefinitionMap.containsKey(beanName);
     }
 }

@@ -24,6 +24,11 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
     // Implementation of BeanFactory interface
     //---------------------------------------------------------------------
     @Override
+    public boolean containsBean(String name) {
+        return false;
+    }
+
+    @Override
     public Object getBean(String name) {
         return doGetBean(name, null, null);
     }
