@@ -34,12 +34,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
     //---------------------------------------------------------------------
     @Override
     public BeanDefinition getBeanDefinition(String beanName) {
-        return null;
-    }
-
-    @Override
-    protected Object createBean(String beanName, BeanDefinition beanDefinition, Object[] args) {
-        return null;
+        return this.beanDefinitionMap.get(beanName);
     }
 
     //---------------------------------------------------------------------

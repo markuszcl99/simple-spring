@@ -98,7 +98,7 @@ public abstract class AbstractBeanDefinition implements BeanDefinition {
 
     @Override
     public boolean isLazyInit() {
-        return this.lazyInit;
+        return (this.lazyInit != null && this.lazyInit.booleanValue());
     }
 
     @Override

@@ -65,7 +65,7 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
                 singletonObject = this.earlySingletonObjects.get(beanName);
                 if (singletonObject == null && allowEarlyReference) {
                     ObjectFactory<?> objectFactory = this.singletonFactories.get(beanName);
-                    if (objectFactory == null) {
+                    if (objectFactory != null) {
                         singletonObject = objectFactory.getObject();
                         this.earlySingletonObjects.put(beanName, singletonObject);
                         this.singletonObjects.remove(beanName);
