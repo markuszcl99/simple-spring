@@ -5,8 +5,10 @@ import com.markus.spring.beans.factory.config.BeanPostProcessor;
 import com.markus.spring.beans.factory.config.ConfigurableBeanFactory;
 import com.sun.istack.internal.Nullable;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @author: markus
@@ -21,6 +23,16 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
      * Map from bean name to merged RootBeanDefinitions
      */
     private final Map<String, RootBeanDefinition> mergedBeanDefinitions = new ConcurrentHashMap<>(256);
+
+    /**
+     * 指示是否已注册任何InstantiationAwareBeanPostProcessors
+     */
+    private volatile boolean hasInstantiationAwareBeanPostProcessors;
+
+    /**
+     * BeanPostProcessor 应用在Bean创建阶段
+     */
+    private final List<BeanPostProcessor> beanPostProcessors = new CopyOnWriteArrayList<>();
 
 
     @Override
@@ -82,6 +94,14 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
         //  我们这里先不实现这么复杂，就在当前容器创建一个RootBeanDefinition即可，将GenericBeanDefinition信息copy到RootBeanDefinition
         RootBeanDefinition mbd = new RootBeanDefinition(beanDefinition);
         return mbd;
+    }
+
+    protected boolean hasInstantiationAwareBeanPostProcessors() {
+        return this.hasInstantiationAwareBeanPostProcessors;
+    }
+
+    public List<BeanPostProcessor> getBeanPostProcessors() {
+        return this.beanPostProcessors;
     }
 
     //---------------------------------------------------------------------
