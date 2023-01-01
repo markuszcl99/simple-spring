@@ -20,5 +20,8 @@ public class BeanFactoryDependencyLookupTest {
 
         User user = (User) beanFactory.getBean("user");
         System.out.println(user);
+
+        User user2 = (User) beanFactory.getBean("user2");
+        System.out.println(user2);
     }
 }
