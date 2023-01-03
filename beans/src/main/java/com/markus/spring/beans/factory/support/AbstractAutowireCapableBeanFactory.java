@@ -6,6 +6,7 @@ import com.markus.spring.beans.PropertyValues;
 import com.markus.spring.beans.factory.AutowireCapableBeanFactory;
 import com.markus.spring.beans.factory.config.BeanDefinition;
 import com.markus.spring.beans.factory.config.BeanPostProcessor;
+import com.markus.spring.beans.factory.config.BeanReference;
 import com.markus.spring.beans.factory.config.InstantiationAwareBeanPostProcessor;
 import com.sun.istack.internal.Nullable;
 
@@ -89,9 +90,12 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
     protected void applyPropertyValues(String beanName, RootBeanDefinition mbd, Object bean, PropertyValues pvs) {
         for (PropertyValue pv : pvs.getPropertyValues()) {
-            // todo 这里先不考虑 Bean引用 后续实现
             String name = pv.getName();
             Object value = pv.getValue();
+            if (value instanceof BeanReference) {
+                BeanReference br = (BeanReference) value;
+                value = getBean(br.getBeanName());
+            }
             // 反射设置属性填充
             BeanUtil.setProperty(bean, name, value);
         }

@@ -4,9 +4,11 @@ import cn.hutool.core.util.StrUtil;
 import com.markus.spring.beans.BeansException;
 import com.markus.spring.beans.MutablePropertyValues;
 import com.markus.spring.beans.PropertyValue;
+import com.markus.spring.beans.factory.config.BeanReference;
 import com.markus.spring.beans.factory.support.AbstractBeanDefinition;
 import com.markus.spring.beans.factory.support.BeanDefinitionRegistry;
 import com.markus.spring.beans.factory.support.GenericBeanDefinition;
+import com.markus.spring.core.util.StringUtils;
 import com.sun.istack.internal.Nullable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -81,10 +83,13 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
             Node node = nl.item(i);
             if (node instanceof Element) {
                 Element subElement = (Element) node;
-                String field = subElement.getAttribute("name");
-                String value = subElement.getAttribute("value");
+                String attrName = subElement.getAttribute("name");
+                String attrValue = subElement.getAttribute("value");
+                String attrRef = subElement.getAttribute("ref");
 
-                propertyValues.addPropertyValue(new PropertyValue(field, value));
+                Object value = StrUtil.isNotEmpty(attrRef) ? new BeanReference(attrRef) : attrValue;
+
+                propertyValues.addPropertyValue(new PropertyValue(attrName, value));
             }
         }
         beanDefinition.setPropertyValues(propertyValues);
