@@ -4,6 +4,7 @@ import com.markus.spring.beans.factory.BeanFactory;
 import com.markus.spring.beans.factory.support.DefaultListableBeanFactory;
 import com.markus.spring.beans.factory.xml.XmlBeanDefinitionReader;
 import com.markus.spring.domain.User;
+import com.markus.spring.domain.UserHolder;
 
 /**
  * @author: markus
@@ -21,7 +22,7 @@ public class BeanFactoryDependencyLookupTest {
         User user = (User) beanFactory.getBean("user");
         System.out.println(user);
 
-        User user2 = (User) beanFactory.getBean("user2");
-        System.out.println(user2);
+        UserHolder userHolder = (UserHolder) beanFactory.getBean("userHolder");
+        System.out.println(userHolder);
     }
 }

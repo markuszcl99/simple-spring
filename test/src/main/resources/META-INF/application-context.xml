@@ -5,8 +5,7 @@
         <property name="sex" value="male"/>
     </bean>
 
-    <bean id="user2" class="com.markus.spring.domain.User">
-        <property name="username" value="Luna"/>
-        <property name="sex" value="female"/>
+    <bean id="userHolder" class="com.markus.spring.domain.UserHolder">
+        <property name="user" ref="user"/>
     </bean>
 </beans>
