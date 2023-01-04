@@ -4,10 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.markus.spring.beans.PropertyValue;
 import com.markus.spring.beans.PropertyValues;
 import com.markus.spring.beans.factory.AutowireCapableBeanFactory;
-import com.markus.spring.beans.factory.config.BeanDefinition;
-import com.markus.spring.beans.factory.config.BeanPostProcessor;
-import com.markus.spring.beans.factory.config.BeanReference;
-import com.markus.spring.beans.factory.config.InstantiationAwareBeanPostProcessor;
+import com.markus.spring.beans.factory.config.*;
 import com.sun.istack.internal.Nullable;
 
 import java.lang.reflect.Constructor;
@@ -22,6 +19,11 @@ import java.lang.reflect.Constructor;
 public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory implements AutowireCapableBeanFactory {
 
     private InstantiationStrategy instantiationStrategy = new SimpleInstantiationStrategy();
+
+    /**
+     * 是否允许循环引用
+     */
+    private boolean allowCircularReferences = true;
 
     @Override
     public Object applyBeanPostProcessorBeforeInstantiation(Object existBean, String beanName) {
@@ -48,6 +50,12 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
         // 初始化 Bean
         Object exposedObject = bean;
+        // 是否需要提前将bean引用曝光到容器中，此处开始便是解决单例Bean循环依赖的地方
+        boolean earlySingletonExposure = (mbd.isSingleton() && this.allowCircularReferences &&
+                isSingletonCurrentlyInCreation(beanName));
+        if (earlySingletonExposure) {
+            addSingletonFactory(beanName, () -> getEarlyBeanReference(beanName, mbd, bean));
+        }
         populateBean(beanName, bean, mbd);
         return bean;
     }
@@ -118,5 +126,19 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
     public InstantiationStrategy getInstantiationStrategy() {
         return this.instantiationStrategy;
+    }
+
+    protected Object getEarlyBeanReference(String beanName, RootBeanDefinition mbd, Object bean) {
+        Object exposedObject = bean;
+        // todo spring 这里还做了一些限制，这里先不实现了
+        if (hasInstantiationAwareBeanPostProcessors()) {
+            for (BeanPostProcessor bp : getBeanPostProcessors()) {
+                if (bp instanceof SmartInstantiationAwareBeanPostProcessor) {
+                    SmartInstantiationAwareBeanPostProcessor sbp = (SmartInstantiationAwareBeanPostProcessor) bp;
+                    exposedObject = sbp.getEarlyBeanReference(exposedObject, beanName);
+                }
+            }
+        }
+        return exposedObject;
     }
 }

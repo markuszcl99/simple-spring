@@ -4,7 +4,9 @@ import com.markus.spring.beans.factory.ObjectFactory;
 import com.markus.spring.beans.factory.config.SingletonBeanRegistry;
 import com.markus.spring.core.util.Assert;
 
+import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -30,6 +32,11 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
      * 三级缓存 存放代理
      */
     private final Map<String, ObjectFactory<?>> singletonFactories = new ConcurrentHashMap<>(16);
+
+    /**
+     * 当前容器正在创建的bean名称集合
+     */
+    private final Set<String> singletonsCurrentlyInCreation = Collections.newSetFromMap(new ConcurrentHashMap<>(16));
 
     @Override
     public void registerSingleton(String beanName, Object singletonObject) {
@@ -79,5 +86,17 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
     @Override
     public boolean containSingleton(String beanName) {
         return false;
+    }
+
+    public boolean isSingletonCurrentlyInCreation(String beanName) {
+        return this.singletonsCurrentlyInCreation.contains(beanName);
+    }
+
+    protected void addSingletonFactory(String beanName, ObjectFactory<?> singletonFactory) {
+        Assert.notNull(singletonFactory, "singletonFactory must not be null!");
+        synchronized (this.singletonObjects) {
+            this.singletonFactories.put(beanName, singletonFactory);
+            this.earlySingletonObjects.remove(beanName, singletonFactory);
+        }
     }
 }
