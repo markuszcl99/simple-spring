@@ -51,8 +51,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         // 初始化 Bean
         Object exposedObject = bean;
         // 是否需要提前将bean引用曝光到容器中，此处开始便是解决单例Bean循环依赖的地方
-        boolean earlySingletonExposure = (mbd.isSingleton() && this.allowCircularReferences &&
-                isSingletonCurrentlyInCreation(beanName));
+        boolean earlySingletonExposure = mbd.isSingleton() && this.allowCircularReferences;
+        // todo spring 这块判断是否需要早期曝光还有一个判断条件，此时我们先不实现
+//        &&
+//                isSingletonCurrentlyInCreation(beanName));
         if (earlySingletonExposure) {
             addSingletonFactory(beanName, () -> getEarlyBeanReference(beanName, mbd, bean));
         }
