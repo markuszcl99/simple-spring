@@ -25,6 +25,13 @@ public abstract class AbstractBeanDefinition implements BeanDefinition {
 
     private boolean primary = false;
 
+    /**
+     * 判断该bean是由用户定义还是其余情况
+     * true 非用户定义
+     * false 用户定义
+     */
+    private boolean synthetic = false;
+
     @Nullable
     private MutablePropertyValues propertyValues;
 
@@ -109,6 +116,14 @@ public abstract class AbstractBeanDefinition implements BeanDefinition {
     @Override
     public boolean isPrimary() {
         return this.primary;
+    }
+
+    public boolean isSynthetic() {
+        return synthetic;
+    }
+
+    public void setSynthetic(boolean synthetic) {
+        this.synthetic = synthetic;
     }
 
     @Override

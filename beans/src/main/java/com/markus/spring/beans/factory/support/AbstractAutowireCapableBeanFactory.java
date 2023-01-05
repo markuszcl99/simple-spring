@@ -27,7 +27,15 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
     @Override
     public Object applyBeanPostProcessorBeforeInstantiation(Object existBean, String beanName) {
-        return null;
+        Object result = existBean;
+        for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
+            Object current = beanPostProcessor.postProcessBeforeInitialization(result, beanName);
+            if (current == null) {
+                return result;
+            }
+            result = current;
+        }
+        return result;
     }
 
     @Override
@@ -102,8 +110,14 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     private Object initializeBean(String beanName, Object exposedObject, RootBeanDefinition mbd) {
         // Aware接口方法注入
         invokeAwareMethod(beanName, exposedObject);
-        return exposedObject;
+        Object wrappedBean = exposedObject;
+        if (mbd == null || !mbd.isSynthetic()) {
+            wrappedBean = applyBeanPostProcessorBeforeInstantiation(wrappedBean, beanName);
+        }
+
+        return wrappedBean;
     }
+
 
     private void invokeAwareMethod(final String beanName, final Object bean) {
         if (bean instanceof Aware) {
