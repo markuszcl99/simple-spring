@@ -3,6 +3,7 @@ package com.markus.spring.beans.factory.support;
 import com.markus.spring.beans.factory.config.BeanDefinition;
 import com.markus.spring.beans.factory.config.BeanPostProcessor;
 import com.markus.spring.beans.factory.config.ConfigurableBeanFactory;
+import com.markus.spring.core.util.ClassUtils;
 import com.sun.istack.internal.Nullable;
 
 import java.util.List;
@@ -34,10 +35,24 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
      */
     private final List<BeanPostProcessor> beanPostProcessors = new CopyOnWriteArrayList<>();
 
+    @Nullable
+    private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
+
 
     @Override
     public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
 
+    }
+
+    @Override
+    public void setBeanClassLoader(ClassLoader beanClassLoader) {
+        this.beanClassLoader = beanClassLoader == null ? ClassUtils.getDefaultClassLoader() : beanClassLoader;
+    }
+
+
+    @Override
+    public ClassLoader getBeanClassLoader() {
+        return this.beanClassLoader;
     }
 
     //---------------------------------------------------------------------

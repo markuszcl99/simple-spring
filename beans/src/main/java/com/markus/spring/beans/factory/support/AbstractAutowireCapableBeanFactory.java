@@ -3,7 +3,7 @@ package com.markus.spring.beans.factory.support;
 import cn.hutool.core.bean.BeanUtil;
 import com.markus.spring.beans.PropertyValue;
 import com.markus.spring.beans.PropertyValues;
-import com.markus.spring.beans.factory.AutowireCapableBeanFactory;
+import com.markus.spring.beans.factory.*;
 import com.markus.spring.beans.factory.config.*;
 import com.sun.istack.internal.Nullable;
 
@@ -59,6 +59,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             addSingletonFactory(beanName, () -> getEarlyBeanReference(beanName, mbd, bean));
         }
         populateBean(beanName, bean, mbd);
+        exposedObject = initializeBean(beanName, exposedObject, mbd);
         return bean;
     }
 
@@ -95,6 +96,26 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
         if (pvs != null) {
             applyPropertyValues(beanName, mbd, bean, pvs);
+        }
+    }
+
+    private Object initializeBean(String beanName, Object exposedObject, RootBeanDefinition mbd) {
+        // Aware接口方法注入
+        invokeAwareMethod(beanName, exposedObject);
+        return exposedObject;
+    }
+
+    private void invokeAwareMethod(final String beanName, final Object bean) {
+        if (bean instanceof Aware) {
+            if (bean instanceof BeanNameAware) {
+                ((BeanNameAware) bean).setBeanName(beanName);
+            }
+            if (bean instanceof BeanClassLoaderAware) {
+                ((BeanClassLoaderAware) bean).setBeanClassLoader(getBeanClassLoader());
+            }
+            if (bean instanceof BeanFactoryAware) {
+                ((BeanFactoryAware) bean).setBeanFactory(AbstractAutowireCapableBeanFactory.this);
+            }
         }
     }
 

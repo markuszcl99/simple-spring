@@ -3,6 +3,7 @@ package com.markus.spring.beans.factory.config;
 import com.markus.spring.beans.factory.BeanFactory;
 import com.markus.spring.beans.factory.HierarchicalBeanFactory;
 import com.markus.spring.beans.factory.config.BeanPostProcessor;
+import com.sun.istack.internal.Nullable;
 
 /**
  * @author: markus
@@ -33,4 +34,10 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory {
      * 销毁所有的单例Bean
      */
     void destroySingletons();
+
+
+    void setBeanClassLoader(@Nullable ClassLoader beanClassLoader);
+
+    @Nullable
+    ClassLoader getBeanClassLoader();
 }
