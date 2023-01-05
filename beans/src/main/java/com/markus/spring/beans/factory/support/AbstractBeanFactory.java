@@ -3,6 +3,8 @@ package com.markus.spring.beans.factory.support;
 import com.markus.spring.beans.factory.config.BeanDefinition;
 import com.markus.spring.beans.factory.config.BeanPostProcessor;
 import com.markus.spring.beans.factory.config.ConfigurableBeanFactory;
+import com.markus.spring.beans.factory.config.InstantiationAwareBeanPostProcessor;
+import com.markus.spring.core.util.Assert;
 import com.markus.spring.core.util.ClassUtils;
 import com.sun.istack.internal.Nullable;
 
@@ -41,7 +43,15 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
 
     @Override
     public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
-
+        Assert.notNull(beanPostProcessor, "beanPostProcessor must not be null!");
+        // 删除旧的后置处理器
+        this.beanPostProcessors.remove(beanPostProcessor);
+        // 增加特殊BeanPostProcessor表示
+        if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
+            this.hasInstantiationAwareBeanPostProcessors = true;
+        }
+        // 添加到尾部
+        this.beanPostProcessors.add(beanPostProcessor);
     }
 
     @Override
