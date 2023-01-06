@@ -1,6 +1,8 @@
 package com.markus.spring.beans.factory.support;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
+import com.markus.spring.beans.BeansException;
 import com.markus.spring.beans.PropertyValue;
 import com.markus.spring.beans.PropertyValues;
 import com.markus.spring.beans.factory.*;
@@ -8,6 +10,8 @@ import com.markus.spring.beans.factory.config.*;
 import com.sun.istack.internal.Nullable;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * @author: markus
@@ -115,7 +119,26 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             wrappedBean = applyBeanPostProcessorBeforeInstantiation(wrappedBean, beanName);
         }
 
+        try {
+            invokeCustomInitMethod(beanName, wrappedBean, mbd);
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            throw new BeansException("user custom init method invoke error!");
+        }
         return wrappedBean;
+    }
+
+    protected void invokeCustomInitMethod(String beanName, Object bean, RootBeanDefinition mbd) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        if (bean instanceof InitializingBean) {
+            ((InitializingBean) bean).afterPropertiesSet();
+        }
+        String initMethodName = mbd.getInitMethodName();
+        if (StrUtil.isNotEmpty(initMethodName)) {
+            Method initMethod = mbd.getBeanClass().getMethod(initMethodName);
+            if (initMethod == null) {
+                throw new BeansException("user define init-method not be found!");
+            }
+            initMethod.invoke(bean);
+        }
     }
 
 

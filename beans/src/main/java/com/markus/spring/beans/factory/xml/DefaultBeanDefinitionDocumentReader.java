@@ -64,6 +64,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
         String name = element.getAttribute("name");
         String className = element.getAttribute("class");
         String scope = element.getAttribute("scope");
+        String initMethodName = element.getAttribute("init-method");
 
         if (StrUtil.isEmpty(className)) {
             throw new BeansException("xml bean element must have class attribute!");
@@ -71,6 +72,10 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
         Class<?> beanClass = Class.forName(className);
         GenericBeanDefinition beanDefinition = new GenericBeanDefinition(beanClass);
         beanDefinition.setScope(scope);
+
+        if (StrUtil.isNotEmpty(initMethodName)) {
+            beanDefinition.setInitMethodName(initMethodName);
+        }
 
         String beanName = StrUtil.isNotEmpty(id) ? id : name;
         if (StrUtil.isEmpty(beanName)) {

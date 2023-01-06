@@ -26,6 +26,12 @@ public abstract class AbstractBeanDefinition implements BeanDefinition {
     private boolean primary = false;
 
     /**
+     * 用户自定义方法
+     */
+    @Nullable
+    private String initMethodName;
+
+    /**
      * 判断该bean是由用户定义还是其余情况
      * true 非用户定义
      * false 用户定义
@@ -51,6 +57,7 @@ public abstract class AbstractBeanDefinition implements BeanDefinition {
             if (originalAbd.hasPropertyValues()) {
                 setPropertyValues(new MutablePropertyValues(originalAbd.getPropertyValues()));
             }
+            setInitMethodName(originalAbd.getInitMethodName());
         } else {
             setPropertyValues(new MutablePropertyValues(original.getPropertyValues()));
         }
@@ -116,6 +123,14 @@ public abstract class AbstractBeanDefinition implements BeanDefinition {
     @Override
     public boolean isPrimary() {
         return this.primary;
+    }
+
+    public String getInitMethodName() {
+        return initMethodName;
+    }
+
+    public void setInitMethodName(String initMethodName) {
+        this.initMethodName = initMethodName;
     }
 
     public boolean isSynthetic() {
