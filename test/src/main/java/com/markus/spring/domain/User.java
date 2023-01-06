@@ -1,9 +1,6 @@
 package com.markus.spring.domain;
 
-import com.markus.spring.beans.factory.BeanClassLoaderAware;
-import com.markus.spring.beans.factory.BeanFactory;
-import com.markus.spring.beans.factory.BeanFactoryAware;
-import com.markus.spring.beans.factory.BeanNameAware;
+import com.markus.spring.beans.factory.*;
 
 /**
  * @author: markus
@@ -12,7 +9,7 @@ import com.markus.spring.beans.factory.BeanNameAware;
  * @Blog: http://markuszhang.com
  * It's my honor to share what I've learned with you!
  */
-public class User implements BeanNameAware, BeanFactoryAware, BeanClassLoaderAware {
+public class User implements BeanNameAware, BeanFactoryAware, BeanClassLoaderAware, InitializingBean {
     private String username;
     private String sex;
     private ClassLoader classLoader;
@@ -59,6 +56,10 @@ public class User implements BeanNameAware, BeanFactoryAware, BeanClassLoaderAwa
         return beanFactory;
     }
 
+    public void customInitMethod() {
+        System.out.println("I am custom init method!");
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -83,5 +84,10 @@ public class User implements BeanNameAware, BeanFactoryAware, BeanClassLoaderAwa
     @Override
     public void setBeanName(String beanName) {
         this.beanName = beanName;
+    }
+
+    @Override
+    public void afterPropertiesSet() {
+        System.out.println("implement InitializingBean's afterPropertiesSet method!");
     }
 }
