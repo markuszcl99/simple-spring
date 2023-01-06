@@ -9,7 +9,7 @@ import com.markus.spring.beans.factory.*;
  * @Blog: http://markuszhang.com
  * It's my honor to share what I've learned with you!
  */
-public class User implements BeanNameAware, BeanFactoryAware, BeanClassLoaderAware, InitializingBean {
+public class User implements BeanNameAware, BeanFactoryAware, BeanClassLoaderAware, InitializingBean, DisposableBean {
     private String username;
     private String sex;
     private ClassLoader classLoader;
@@ -60,6 +60,10 @@ public class User implements BeanNameAware, BeanFactoryAware, BeanClassLoaderAwa
         System.out.println("I am custom init method!");
     }
 
+    public void customDestroyMethod() {
+        System.out.println("I am custom destroy method!");
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -89,5 +93,10 @@ public class User implements BeanNameAware, BeanFactoryAware, BeanClassLoaderAwa
     @Override
     public void afterPropertiesSet() {
         System.out.println("implement InitializingBean's afterPropertiesSet method!");
+    }
+
+    @Override
+    public void destroy() {
+        System.out.println("implement DisposableBean's destroy method!");
     }
 }
