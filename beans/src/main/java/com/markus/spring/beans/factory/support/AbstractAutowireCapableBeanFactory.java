@@ -72,6 +72,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         }
         populateBean(beanName, bean, mbd);
         exposedObject = initializeBean(beanName, exposedObject, mbd);
+
+
         return bean;
     }
 
@@ -120,14 +122,18 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         }
 
         try {
-            invokeCustomInitMethod(beanName, wrappedBean, mbd);
+            invokeInitMethods(beanName, wrappedBean, mbd);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             throw new BeansException("user custom init method invoke error!");
+        }
+
+        if (wrappedBean == null || !mbd.isSynthetic()) {
+            wrappedBean = applyBeanPostProcessorAfterInstantiation(wrappedBean, beanName);
         }
         return wrappedBean;
     }
 
-    protected void invokeCustomInitMethod(String beanName, Object bean, RootBeanDefinition mbd) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    protected void invokeInitMethods(String beanName, Object bean, RootBeanDefinition mbd) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         if (bean instanceof InitializingBean) {
             ((InitializingBean) bean).afterPropertiesSet();
         }
