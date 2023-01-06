@@ -31,6 +31,9 @@ public abstract class AbstractBeanDefinition implements BeanDefinition {
     @Nullable
     private String initMethodName;
 
+    @Nullable
+    private String destroyMethodName;
+
     /**
      * 判断该bean是由用户定义还是其余情况
      * true 非用户定义
@@ -58,6 +61,7 @@ public abstract class AbstractBeanDefinition implements BeanDefinition {
                 setPropertyValues(new MutablePropertyValues(originalAbd.getPropertyValues()));
             }
             setInitMethodName(originalAbd.getInitMethodName());
+            setDestroyMethodName(originalAbd.getDestroyMethodName());
         } else {
             setPropertyValues(new MutablePropertyValues(original.getPropertyValues()));
         }
@@ -131,6 +135,14 @@ public abstract class AbstractBeanDefinition implements BeanDefinition {
 
     public void setInitMethodName(String initMethodName) {
         this.initMethodName = initMethodName;
+    }
+
+    public String getDestroyMethodName() {
+        return destroyMethodName;
+    }
+
+    public void setDestroyMethodName(String destroyMethodName) {
+        this.destroyMethodName = destroyMethodName;
     }
 
     public boolean isSynthetic() {

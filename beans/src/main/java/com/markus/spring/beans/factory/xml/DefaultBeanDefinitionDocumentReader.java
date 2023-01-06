@@ -65,6 +65,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
         String className = element.getAttribute("class");
         String scope = element.getAttribute("scope");
         String initMethodName = element.getAttribute("init-method");
+        String destroyMethodName = element.getAttribute("destroy-method");
 
         if (StrUtil.isEmpty(className)) {
             throw new BeansException("xml bean element must have class attribute!");
@@ -75,6 +76,9 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 
         if (StrUtil.isNotEmpty(initMethodName)) {
             beanDefinition.setInitMethodName(initMethodName);
+        }
+        if (StrUtil.isNotEmpty(destroyMethodName)) {
+            beanDefinition.setDestroyMethodName(destroyMethodName);
         }
 
         String beanName = StrUtil.isNotEmpty(id) ? id : name;

@@ -1,12 +1,14 @@
 package com.markus.spring.beans.factory.support;
 
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
+import com.markus.spring.beans.factory.DisposableBean;
 import com.markus.spring.beans.factory.ObjectFactory;
 import com.markus.spring.beans.factory.config.SingletonBeanRegistry;
 import com.markus.spring.core.util.Assert;
+import com.markus.spring.core.util.StringUtils;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -17,6 +19,11 @@ import java.util.concurrent.ConcurrentHashMap;
  * It's my honor to share what I've learned with you!
  */
 public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
+
+    /**
+     * 销毁Bean实例缓存
+     */
+    private final Map<String, Object> disposableBeans = new LinkedHashMap<>();
 
     /**
      * 一级缓存 存放普通对象
@@ -98,5 +105,38 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
             this.singletonFactories.put(beanName, singletonFactory);
             this.earlySingletonObjects.remove(beanName, singletonFactory);
         }
+    }
+
+    protected void registerDisposableBean(String beanName, DisposableBean disposableBean) {
+        synchronized (this.disposableBeans) {
+            this.disposableBeans.put(beanName, disposableBean);
+        }
+    }
+
+    public void destroySingletons() {
+        String[] disposableBeanNames;
+        synchronized (this.disposableBeans) {
+            disposableBeanNames = StringUtils.toStringArray(this.disposableBeans.keySet());
+        }
+        for (int i = 0; i < disposableBeanNames.length; i++) {
+            destroySingleton(disposableBeanNames[i]);
+        }
+    }
+
+    public void destroySingleton(String beanName) {
+        removeSingleton(beanName);
+
+        DisposableBean disposableBean;
+        synchronized (this.disposableBeans) {
+            disposableBean = (DisposableBean) this.disposableBeans.remove(beanName);
+        }
+        //todo 这里先实现单个无依赖的bean销毁，后续实现多依赖bean销毁
+        disposableBean.destroy();
+    }
+
+    private void removeSingleton(String beanName) {
+        this.singletonObjects.remove(beanName);
+        this.earlySingletonObjects.remove(beanName);
+        this.singletonFactories.remove(beanName);
     }
 }

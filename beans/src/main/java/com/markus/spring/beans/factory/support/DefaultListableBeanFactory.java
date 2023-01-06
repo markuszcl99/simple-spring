@@ -50,7 +50,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
     //---------------------------------------------------------------------
     @Override
     public void destroySingletons() {
-
+        super.destroySingletons();
     }
 
     //---------------------------------------------------------------------

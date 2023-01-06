@@ -73,7 +73,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         populateBean(beanName, bean, mbd);
         exposedObject = initializeBean(beanName, exposedObject, mbd);
 
-
+        // 注册单例Bean的销毁回调
+        registerDisposableBeanIfNecessary(beanName, bean, mbd);
         return bean;
     }
 
@@ -144,6 +145,15 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
                 throw new BeansException("user define init-method not be found!");
             }
             initMethod.invoke(bean);
+        }
+    }
+
+    protected void registerDisposableBeanIfNecessary(String beanName, Object bean, RootBeanDefinition mbd) {
+        if (!mbd.isPrototype()) {
+            if (mbd.isSingleton()) {
+                registerDisposableBean(beanName, new DisposableBeanAdapter(bean, beanName, mbd));
+            }
+            // 其他作用域的bean也有相应的处理，这里先不实现了
         }
     }
 
