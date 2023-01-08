@@ -32,8 +32,7 @@ public class GenericConversionService implements ConversionService, ConverterReg
     @SuppressWarnings("unchecked")
     public <T> T convert(Object source, Class<?> targetType) {
         Class<?> sourceType = source.getClass();
-        GenericConverter.ConvertiblePair convertiblePair = new GenericConverter.ConvertiblePair(sourceType, targetType);
-        GenericConverter converter = converters.get(convertiblePair);
+        GenericConverter converter = getConverter(sourceType,targetType);
         return (T) converter.convert(source, sourceType, targetType);
     }
 

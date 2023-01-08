@@ -1,6 +1,7 @@
 package com.markus.spring.domain;
 
 import com.markus.spring.beans.factory.*;
+import com.markus.spring.enums.City;
 
 /**
  * @author: markus
@@ -12,6 +13,9 @@ import com.markus.spring.beans.factory.*;
 public class User implements BeanNameAware, BeanFactoryAware, BeanClassLoaderAware, InitializingBean, DisposableBean {
     private String username;
     private String sex;
+    private Integer age;
+    private boolean success;
+    private City city;
     private ClassLoader classLoader;
     private String beanName;
     private BeanFactory beanFactory;
@@ -64,11 +68,38 @@ public class User implements BeanNameAware, BeanFactoryAware, BeanClassLoaderAwa
         System.out.println("I am custom destroy method!");
     }
 
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "username='" + username + '\'' +
                 ", sex='" + sex + '\'' +
+                ", age=" + age +
+                ", success=" + success +
+                ", city=" + city +
                 ", classLoader=" + classLoader +
                 ", beanName='" + beanName + '\'' +
                 ", beanFactory=" + beanFactory +

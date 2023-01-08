@@ -192,7 +192,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
                     }
                 }
             }
-            // 反射设置属性填充
+            // 反射设置属性填充 这里的hutool工具有点强大，会将不同的类型字段进行转换 我们需要debug测试一下上面value是否被正常进行类型转换了
             BeanUtil.setProperty(bean, name, value);
         }
     }

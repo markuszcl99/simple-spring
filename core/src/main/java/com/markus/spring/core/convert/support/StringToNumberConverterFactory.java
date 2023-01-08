@@ -16,7 +16,7 @@ import com.sun.istack.internal.Nullable;
 public class StringToNumberConverterFactory implements ConverterFactory<String, Number> {
     @Override
     public <T extends Number> Converter<String, T> getConverter(Class<T> targetType) {
-        return null;
+        return new StringToNumber<>(targetType);
     }
 
     private static final class StringToNumber<T extends Number> implements Converter<String, T> {
