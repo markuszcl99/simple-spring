@@ -17,5 +17,6 @@ public class DefaultConversionService extends GenericConversionService {
     public static void addDefaultConverters(ConverterRegistry converterRegistry) {
         // 添加各类类型转换工厂
         converterRegistry.addConverterFactory(new StringToNumberConverterFactory());
+        converterRegistry.addConverterFactory(new StringToEnumConverterFactory());
     }
 }
