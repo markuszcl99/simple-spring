@@ -2,11 +2,13 @@ package com.markus.spring.beans.factory.support;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.TypeUtil;
 import com.markus.spring.beans.BeansException;
 import com.markus.spring.beans.PropertyValue;
 import com.markus.spring.beans.PropertyValues;
 import com.markus.spring.beans.factory.*;
 import com.markus.spring.beans.factory.config.*;
+import com.markus.spring.core.convert.ConversionService;
 import com.sun.istack.internal.Nullable;
 
 import java.lang.reflect.Constructor;
@@ -179,6 +181,16 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             if (value instanceof BeanReference) {
                 BeanReference br = (BeanReference) value;
                 value = getBean(br.getBeanName());
+            } else {
+                // 非Bean引用的情况，例如基本类型或者其他类
+                Class<?> sourceType = value.getClass();
+                Class<?> targetType = (Class<?>) TypeUtil.getFieldType(bean.getClass(), name);
+                ConversionService conversionService = getConversionService();
+                if (conversionService != null) {
+                    if (conversionService.canConvert(sourceType, targetType)) {
+                        value = conversionService.convert(value, targetType);
+                    }
+                }
             }
             // 反射设置属性填充
             BeanUtil.setProperty(bean, name, value);

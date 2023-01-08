@@ -4,6 +4,7 @@ import com.markus.spring.beans.factory.config.BeanDefinition;
 import com.markus.spring.beans.factory.config.BeanPostProcessor;
 import com.markus.spring.beans.factory.config.ConfigurableBeanFactory;
 import com.markus.spring.beans.factory.config.InstantiationAwareBeanPostProcessor;
+import com.markus.spring.core.convert.ConversionService;
 import com.markus.spring.core.util.Assert;
 import com.markus.spring.core.util.ClassUtils;
 import com.sun.istack.internal.Nullable;
@@ -39,6 +40,9 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
 
     @Nullable
     private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
+
+    @Nullable
+    private ConversionService conversionService;
 
 
     @Override
@@ -127,6 +131,14 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
 
     public List<BeanPostProcessor> getBeanPostProcessors() {
         return this.beanPostProcessors;
+    }
+
+    public ConversionService getConversionService() {
+        return conversionService;
+    }
+
+    public void setConversionService(ConversionService conversionService) {
+        this.conversionService = conversionService;
     }
 
     //---------------------------------------------------------------------
