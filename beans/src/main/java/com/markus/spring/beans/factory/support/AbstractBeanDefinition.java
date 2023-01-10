@@ -180,4 +180,9 @@ public abstract class AbstractBeanDefinition implements BeanDefinition {
         this.propertyValues = propertyValues;
     }
 
+    public boolean hasMethodOverrides() {
+        // todo spring 这块是针对有方法重写的bean，先默认返回false，待以后想实现再实现
+        return false;
+    }
+
 }
