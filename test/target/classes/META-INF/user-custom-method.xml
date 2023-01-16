@@ -1,7 +1,0 @@
-<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-
-    <bean id="user" class="com.markus.spring.domain.User" init-method="customInitMethod">
-        <property name="username" value="MarkusZhang"/>
-        <property name="sex" value="male"/>
-    </bean>
-</beans>
