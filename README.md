@@ -25,7 +25,7 @@ Spring由2002年10月发布第一个，由一个带有易于配置和使用的�
 
 > 在文档方面的规划是:
 >
-> - 基于《[Spring Framework Documentation](https://docs.spring.io/spring-framework/docs/5.2.19.RELEASE/spring-framework-reference/index.html)》《[小马哥讲 Spring 核心编程思想](https://time.geekbang.org/course/intro/100042601?tab=catalog)》《[小马哥讲 Spring AOP 编程思想](https://time.geekbang.org/course/intro/100066301?tab=catalog)》《[Spring源码深度解析（第2版）](https://book.douban.com/subject/30452948/)》资料，总结出一套自己对于Spring框架核心实现原理的总结（如果有思考不对的地方，还请批评指教）
+> - 基于《[Spring Framework Documentation](https://docs.spring.io/spring-framework/docs/5.2.19.RELEASE/spring-framework-reference/index.html)》《[小马哥讲 Spring 核心编程思想](https://time.geekbang.org/course/intro/100042601?tab=catalog)》《[小马哥讲 Spring AOP 编程思想](https://time.geekbang.org/course/intro/100066301?tab=catalog)》《[Spring源码深度解析（第2版）](https://book.douban.com/subject/30452948/)》资料，梳理出一套自己对于Spring框架核心实现原理的总结（如果有思考不对的地方，还请批评指教）
 > - 手撸Spring核心源码时，实现了哪些内容，如何设计的，总结出一版思考文档
 
 ### 1、原理总结专栏
