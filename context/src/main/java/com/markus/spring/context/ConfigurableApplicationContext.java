@@ -8,4 +8,10 @@ package com.markus.spring.context;
  * It's my honor to share what I've learned with you!
  */
 public interface ConfigurableApplicationContext extends ApplicationContext {
+
+    /**
+     * 添加事件监听器
+     * @param applicationListener
+     */
+    void addApplicationListener(ApplicationListener<?> applicationListener);
 }

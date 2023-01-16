@@ -7,5 +7,5 @@ package com.markus.spring.context;
  * @Blog: http://markuszhang.com
  * It's my honor to share what I've learned with you!
  */
-public interface ApplicationContext {
+public interface ApplicationContext extends ApplicationEventPublisher {
 }
