@@ -1,5 +1,7 @@
 # 手写Spring
 
+![spring-bg](01-assets/spring-bg.jpg)
+
 ## 一、前言
 
 2022年，是学习Spring的一年，但一年下来，我从Spring中学到了什么呢？设计理念？IoC核心容器？AOP编程？我真正理解到了吗？各模块是怎么运作的，实现原理又是如何？基于此，《手写Spring》的想法就突入脑海，于是新建仓库来完成手撸Spring框架的工作。
@@ -14,24 +16,19 @@ Spring由2002年10月发布第一个，由一个带有易于配置和使用的�
 - Bean作用域
 - 应用生命周期
 - 类型转换
-- 事件监听-ApplicationEvent&ApplicationListener
+- 事件监听
 - Environment抽象
 - 注解驱动
 - AOP
 
 ## 二、文档规划
 
-| 内容                                                         | 快速进入 | 进度 |
-| :----------------------------------------------------------- | :------- | :--- |
-| IoC容器概览-BeanFactory与ApplicationContext                  |          |      |
-| Bean的元信息介绍-BeanDefinition                              |          |      |
-| Bean生命周期之资源加载阶段-XmlBeanDefinitionReader           |          |      |
-| Bean生命周期之资源解析阶段-DefaultBeanDefinitionDocumentReader |          |      |
-| Bean生命周期之BeanDefiniton注册阶段-BeanDefinitionRegistry   |          |      |
-| Bean生命周期之BeanDefinition合并阶段-AbstractBeanFactory#getMergedBeanDefinition |          |      |
-|                                                              |          |      |
-|                                                              |          |      |
-|                                                              |          |      |
+> 在文档方面的规划是:
+>
+> - 基于《[Spring Framework Documentation](https://docs.spring.io/spring-framework/docs/5.2.19.RELEASE/spring-framework-reference/index.html)》《[小马哥讲 Spring 核心编程思想](https://time.geekbang.org/course/intro/100042601?tab=catalog)》《[小马哥讲 Spring AOP 编程思想](https://time.geekbang.org/course/intro/100066301?tab=catalog)》《[Spring源码深度解析（第2版）](https://book.douban.com/subject/30452948/)》资料，总结出一套自己对于Spring框架核心实现原理的总结（如果有思考不对的地方，还请批评指教）
+> - 手撸Spring核心源码时，实现了哪些内容，如何设计的，总结出一版思考文档
 
+### 1、原理总结专栏
 
+### 2、手撸源码专栏
 
