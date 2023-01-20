@@ -10,7 +10,7 @@ Spring Framework提供的特性如下图所示：
 
 - Core: Spring核心特性，包括IoC容器、事件(Events)、资源(Resources)、国际化(i18n)、数据校验(Data Validation)、数据绑定(Data Binding)、类型转换(Type Conversions)、面向切面编程(AOP)、Spring表达式(SpEL)
 - Test: Mock对象，对Spring框架各模块的测试，例如Beans、Core、MVC等模块。
-- Data Access: 提供对数据访问方面支持，例如事务支持(Transaction)、DAO支持、JDBC封装、ORM封装(JPA、Hibernate等)
+- Data Access: 提供对数据访问方面支持，例如事务支持(Transaction)、DAO支持、JDBC封装、O/R Mapping
 - Web Servlet: 
 - Web Reactive: 
 - Integration: 
