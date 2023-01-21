@@ -38,6 +38,16 @@ Spring Framework提供的特性如下图所示：
     - AbstractAutowireCapableBeanFactory: 继承AbstractBeanFactory，提供相关功能实现，并且实现AutowireCapableBeanFactory定义的相关函数
     - DefaultListableBeanFactory: 综合上面所有功能，主要是对Bean注册后的处理
   - XmlBeanDefinitionReader-Xml配置文件读取器
-    - 
+    - ![XmlBeanDefinitionReader-UML](../01-assets/XmlBeanDefinitionReader-UML.png)
+    - BeanDefinitionReader: BeanDefinition读取器，定义资源文件读取并转换为BeanDefinition的各个功能
+    - ResourceLoader: 资源加载器，主要应用于根据给定的资源路径返回对应的Resource
+    - DocumentLoader: Document加载器，定义从资源文件加载转换到Document的功能
+    - DefaultDocumentLoader: DocumentLoader的默认实现
+    - AbstractBeanDefinitionReader: 对BeanDefinitionReader定义的函数进行实现，另外也涉及实现EnvironmentCapable接口的实现(不进一步讨论)
+    - XmlBeanDefinitionReader: 继承AbstractBeanDefinitionReader，实现从xml读取资源的功能
+    - BeanDefinitionDocumentReader: 定义读取Document并转换注册BeanDefinition的功能
+    - DefaultBeanDefinitionDocumentReader: BeanDefinitionDocumentReader的默认实现
+    - BeanDefinitionParserDelegate: 提供对各种Element标签的解析
+    - ![](../01-assets/XML资源读取过程.png)
 
 ## 三、
