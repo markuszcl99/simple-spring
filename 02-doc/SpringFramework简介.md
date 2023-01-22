@@ -49,5 +49,9 @@ Spring Framework提供的特性如下图所示：
     - DefaultBeanDefinitionDocumentReader: BeanDefinitionDocumentReader的默认实现
     - BeanDefinitionParserDelegate: 提供对各种Element标签的解析
     - ![](../01-assets/XML资源读取过程.png)
+- Spring-context module
+  - 该模块是通过ApplicationContext实现对底层IoC容器-BeanFactory的扩展，提供企业级功能(如事件机制、国际化文案等)。
+  - 
+
 
 ## 三、
